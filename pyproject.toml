@@ -1,0 +1,29 @@
+[project]
+name = "coverage-test"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = "==3.13.*"
+
+dependencies = [
+    "flask-sqlalchemy-lite>=0.1.0",
+    "flask>=3.1.0",
+    "gevent>=24.11.1",
+    "pytest-cov>=6.0.0",
+    "pytest-flask>=1.3.0",
+    "sqlalchemy>=2.0.39",
+]
+
+[tool.coverage.run]
+# branch = true
+concurrency = ["gevent", "thread", "multiprocessing"]
+# dynamic_context = "test_function"
+
+[tool.coverage.report]
+show_missing = true
+# skip_covered = true
+# Regexes for lines to exclude from consideration
+exclude_also = [
+    # # TYPE_CHECKING block is only executed while running mypy
+    # "if TYPE_CHECKING:",
+]
+# [tool.coverage.html]
