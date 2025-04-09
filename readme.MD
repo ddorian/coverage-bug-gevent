@@ -6,9 +6,9 @@ python -m gevent.monkey --module pytest tests/ --cov=webapp --cov-report html -s
 
 
 
-Works ok:
+Works ok with `--no-thread`:
 
-python -m pytest tests/ --cov=webapp --cov-report html -s
+python -m gevent.monkey --no-thread --module pytest tests/ --cov=webapp --cov-report html -s
 
 
 ![](coverage_no_bug.jpg)
