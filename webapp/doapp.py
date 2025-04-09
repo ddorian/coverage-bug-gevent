@@ -1,3 +1,4 @@
+from boto3.s3.transfer import TransferConfig
 import boto3
 from flask import Flask
 from flask_sqlalchemy_lite import SQLAlchemy
@@ -50,7 +51,10 @@ class MyModel:
         s3 = boto3.client("s3", region_name="us-east-1")
         # s3.create_bucket(Bucket="mybucket")
         # s3.put_object(Bucket="mybucket", Key=self.name, Body=self.value, Config=config)
-        s3.upload_file("coverage_bug.jpg", "mybucket", "s3_path.jpg")
+        # todo set `use_threads=False` to fix coverage or disable thread patching with --no-thread
+        config = TransferConfig(use_threads=True)
+
+        s3.upload_file("coverage_bug.jpg", "mybucket", "s3_path.jpg", Config=config)
         print("now_broken with thread patching")
 
 
