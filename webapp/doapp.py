@@ -1,3 +1,7 @@
+import gevent
+from gevent.threadpool import ThreadPool
+from typing import Callable, Any
+
 from boto3.s3.transfer import TransferConfig
 import boto3
 from flask import Flask
@@ -57,6 +61,14 @@ class MyModel:
         s3.upload_file("coverage_bug.jpg", "mybucket", "s3_path.jpg", Config=config)
         print("now_broken with thread patching")
 
+def run_in_threadpool(func: Callable[[Any], Any], *args: Any, **kwargs: Any) -> Any:
+    global_threadpool: ThreadPool = gevent.get_hub().threadpool
+    output1 = global_threadpool.spawn(func, *args, **kwargs).get()
+    return output1
+
+
+def another_func():
+    print("another_func")
 
 
 def do_stuff(nr:int=5):
@@ -69,6 +81,7 @@ def do_stuff(nr:int=5):
     db.session.add(spongebob)
     db.session.commit()
     md.save()
+    run_in_threadpool(another_func)
     print(spongebob.id)
     return spongebob
 
